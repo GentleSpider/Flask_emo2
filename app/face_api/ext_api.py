@@ -11,6 +11,7 @@ def baidu_emo_api(image_in, imageType_in):
     # imageType = "BASE64"
     # imageType = 'FACE_TOKEN'
 
+
     if imageType_in == 'COMPARE_RES':
         image = image_in['result']['face_list'][1]['face_token']
         imageType = 'FACE_TOKEN'
@@ -24,10 +25,22 @@ def baidu_emo_api(image_in, imageType_in):
     # options["max_face_num"] = 2
     # options["face_type"] = "LIVE"
 
+    from . import faca_api_path
+    import os
+    log_path = os.path.join(faca_api_path, 'log.txt')
     """ 带参数调用人脸检测 """
-    res = baidu_client.detect(image, imageType, options)
-    res_emo = res['result']['face_list'][0]['emotion']['type']
-    return res_emo
+    import json
+    import traceback
+    try:
+        res = baidu_client.detect(image, imageType, options)
+        # with open(log_path, 'a+') as log_file:
+        #     json.dump(res, log_file ,ensure_ascii=False, sort_keys=True, indent=4, separators=(',', ':'))
+        res_emo = res['result']['face_list'][0]['emotion']['type']
+        return res_emo
+    except Exception:
+        traceback.print_exc()
+        return 'emo_false'
+
 
 def py3_warn_mail(reciver, warning_name):
     '''

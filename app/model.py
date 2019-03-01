@@ -15,9 +15,10 @@ class User(db.Model):
     # backref是反向的给Picture类创建一个user属性，关联users表。这是flask特殊的属性。
     pictures = db.relationship('Picture', backref="user")
 
-    def __init__(self, name, password):
+    def __init__(self, name, password, email_address):
         self.name = name
         self.password = password
+        self.email_address = email_address
 
     def __repr__(self):
         user_dict = {'id': self.id, 'name': self.name, 'password': self.password, 'email_address': self.email_address}

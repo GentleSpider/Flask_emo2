@@ -239,7 +239,7 @@ def picture_check():
                     if result['result']['score'] > 60:
                         res_name = filename.split('.')
                         res_name = res_name[0]
-                        res_emo = ext_api.baidu_emo_api(result, 'COMPARE_RES')
+                        res_emo = ext_api.baidu_emo_api(picture_check_file, 'BASE64')
                         res_dic = {'res': 'picture_check_success', 'return_stat': 'picture_check_ok',
                                    'return_name': res_name, 'score': result['result']['score'], 'emotion': res_emo,
                                    'function': 'picture_check', 'email_flag': 'false'}
@@ -247,7 +247,7 @@ def picture_check():
                             res = db.session.query(User).filter_by(id=USER_ID).first()
                             reciver_email = res.email_address
                             warn_name = res_name
-                            ext_api.py3_warn_mail_with_exist_server(reciver_email, warn_name)
+                            ext_api.py3_warn_mail(reciver_email, warn_name)
                             res_dic['email_flag'] = 'true'
                         res_json = json.dumps(res_dic)
                         return res_json
